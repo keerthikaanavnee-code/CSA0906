@@ -1,0 +1,155 @@
+import java.util.Scanner;
+
+public class FlightBookingApp {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        FlightDAO flightDAO = new FlightDAO();
+        BookingService bookingService = new BookingService();
+        ViewBookingDAO viewBookingDAO = new ViewBookingDAO();
+        CancelBookingDAO cancelBookingDAO = new CancelBookingDAO();
+
+        while (true) {
+
+            System.out.println("\n================================");
+            System.out.println("       FLIGHT BOOKING SYSTEM");
+            System.out.println("================================");
+            System.out.println("1. View Flights");
+            System.out.println("2. Book Ticket");
+            System.out.println("3. View Bookings");
+            System.out.println("4. Cancel Ticket");
+            System.out.println("5. Exit");
+            System.out.println("================================");
+
+            System.out.print("Enter your choice: ");
+
+            int choice;
+
+            try {
+                choice = sc.nextInt();
+            } catch (Exception e) {
+
+                System.out.println(
+                        "❌ Please enter a valid number.");
+
+                sc.nextLine();
+                continue;
+            }
+
+            switch (choice) {
+
+                // VIEW FLIGHTS
+                case 1:
+
+                    flightDAO.viewFlights();
+
+                    break;
+
+
+                // BOOK TICKET
+                case 2:
+
+                    sc.nextLine();
+
+                    System.out.print(
+                            "Enter passenger name: ");
+
+                    String passengerName =
+                            sc.nextLine();
+
+                    System.out.print(
+                            "Enter flight ID: ");
+
+                    int flightId;
+
+                    try {
+                        flightId = sc.nextInt();
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "❌ Invalid flight ID.");
+
+                        sc.nextLine();
+                        break;
+                    }
+
+                    System.out.print(
+                            "Enter number of seats: ");
+
+                    int seatsBooked;
+
+                    try {
+                        seatsBooked = sc.nextInt();
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "❌ Invalid number of seats.");
+
+                        sc.nextLine();
+                        break;
+                    }
+
+                    bookingService.bookTicket(
+                            passengerName,
+                            flightId,
+                            seatsBooked);
+
+                    break;
+
+
+                // VIEW BOOKINGS
+                case 3:
+
+                    viewBookingDAO.viewBookings();
+
+                    break;
+
+
+                // CANCEL TICKET
+                case 4:
+
+                    System.out.print(
+                            "Enter booking ID to cancel: ");
+
+                    int bookingId;
+
+                    try {
+                        bookingId = sc.nextInt();
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "❌ Invalid booking ID.");
+
+                        sc.nextLine();
+                        break;
+                    }
+
+                    cancelBookingDAO.cancelBooking(
+                            bookingId);
+
+                    break;
+
+
+                // EXIT
+                case 5:
+
+                    System.out.println(
+                            "\nThank you for using "
+                            + "Flight Booking System!");
+
+                    sc.close();
+
+                    return;
+
+
+                default:
+
+                    System.out.println(
+                            "❌ Invalid choice! "
+                            + "Please choose 1-5.");
+            }
+        }
+    }
+}
